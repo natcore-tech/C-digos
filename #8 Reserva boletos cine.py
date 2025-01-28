@@ -1,4 +1,37 @@
 #Registro y usuario, menú
+import string
+import random
+
+users = {} #users.contra
+
+def gen(length=8): #contra
+    carac = string.ascii_letters + string.digits
+    return ''.join(random.choice(carac) for _ in range(length))
+
+def reg(): #sign 
+    if len(users) >= 5:
+        print("No se pueden resgistrar mas usuarios. Limite alcanzado")
+        return
+
+    nom = input("Introduce tu nombre: ")
+    if nom in users:
+        print(f"El nombre de usuario ya está registrado.")
+    else:
+        contra = gen()
+        users[nom] = contra
+        print(f"Usuario registrado con éxito. Tu contraseña es: {contra}")
+
+def log(): #login
+    nom = input("Introduce tu nombre: ")
+    print("----------------------------")
+    contra = input("Introduce tu contraseña: ")
+
+    if nom in users and users[nom] == contra:
+        print("\nInicio de sesión exitoso.")
+        return nom
+    else:
+        print("\nNombre de usuario o contraseña incorrectos.")
+        return None
 
 def reglog():
     while True:
@@ -13,9 +46,9 @@ def reglog():
         opcion = input("Elige una opción: ")
         print("-------------------------------------------------------------------------------")
         if opcion == '1':
-            print("Elegiste 1")
+            log()
         elif opcion == '2':
-            print("Elegiste 2")
+            reg()
         elif opcion == '3':
             print("Elegiste 3")
         elif opcion== '4':
