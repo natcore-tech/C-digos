@@ -33,7 +33,7 @@ def log(): #login
         print("\nNombre de usuario o contraseña incorrectos.")
         return None
 
-def reglog():
+def menú():
     while True:
         print("-------------------------------------------------------------------------------")
         print("Bienvenido a Cinenat")
@@ -58,4 +58,4 @@ def reglog():
         else:
             print("Opción no válida. Por favor, elige una opción válida.")
 
-reglog()
+menú()

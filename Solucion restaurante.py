@@ -34,7 +34,7 @@ class Restaurante:
             for reserva in self.reservas:
                 print(f"{reserva['cliente']} - {reserva['fecha']} {reserva['hora']} - {reserva['numero_personas']} personas")
 
-    def reporte_diario(self, fecha):
+    #def reporte_diario(self, fecha):
         reservas_del_dia = [reserva for reserva in self.reservas if reserva['fecha'] == fecha]
         if not reservas_del_dia:
             print(f"No hay reservas para el {fecha}.")
