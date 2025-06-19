@@ -1,0 +1,46 @@
+# Nombre del pipeline que veremos en la pestaña "Actions" de GitHub
+name: Pipeline de Despliegue del Sitio Web
+
+# 1. EL DISPARADOR (TRIGGER)
+# ¿Cuándo se va a ejecutar este pipeline?
+# En este caso, cada vez que hagamos un 'push' a la rama 'main'
+on:
+  push:
+    branches: [ main ]
+
+# 2. LOS TRABAJOS (JOBS)
+# Un pipeline se compone de uno o más trabajos que pueden correr en paralelo o secuencia.
+jobs:
+  # Definimos nuestro primer trabajo, lo llamamos "construir-y-probar"
+  construir-y-probar:
+    # ¿En qué tipo de máquina virtual queremos que se ejecute? Usaremos la más reciente de Ubuntu.
+    runs-on: ubuntu-latest
+
+    # 3. LOS PASOS (STEPS)
+    # Estos son los comandos que se ejecutarán en secuencia dentro del trabajo.
+    steps:
+      # Paso 1: Clonar nuestro repositorio
+      # Este 'action' pre-hecho por GitHub descarga nuestro código en la máquina virtual.
+      - name: Clonar el repositorio
+        uses: actions/checkout@v3
+
+      # Paso 2: Simular la "Construcción" (Build)
+      # En un proyecto real aquí compilaríamos el código. Para nuestra web, solo listaremos los archivos para verificar que todo está ahí.
+      - name: Listar archivos para verificar la construcción
+        run: ls -la
+
+      # Paso 3: Ejecutar una "Prueba" (Test) Automática
+      # Verificamos que nuestro HTML tenga un título. Si el comando 'grep' no encuentra la palabra, fallará, y el pipeline se detendrá.
+      # ¡Esto evita que código roto llegue a los usuarios!
+      - name: Verificar que el index.html tiene un título
+        run: grep -q "<title>" index.html
+
+  # Definimos un segundo trabajo para el despliegue
+  desplegar:
+    # Este trabajo depende del anterior. Solo se ejecutará si "construir-y-probar" fue exitoso.
+    needs: construir-y-probar
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Simular el Despliegue
+        run: echo "🚀 Desplegando el sitio web... ¡Listo! El sitio está en producción."
